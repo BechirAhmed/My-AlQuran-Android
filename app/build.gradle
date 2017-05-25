@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 25
@@ -21,14 +21,104 @@ android {
     }
 }
 
+ext {
+    ANDROID_SUPPORT_DESIGN_VERSION = '25.3.1'
+    ROOM_VERSION = '1.0.0-alpha1'
+    ESPRESSO_VERSION = '2.2.2'
+    BUTTER_KNIFE_VERSION = "8.4.0"
+    BUTTER_KNIFE_ANNOTATION_VERSION = "10.0-b28"
+    GLIDE_VERSION = "3.7.0"
+    RXJAVA2_VERSION = "2.0.1"
+    RXJAVA2_ADAPTER_VERSION = "1.0.0"
+    OKHTTP_VERSION = "3.4.1"
+    RETROFIT_VERSION = "2.1.0"
+    OKIO_VERSION = "1.11.0"
+    GLIDE_VERSION = "3.7.0"
+    DAGGER_VERSION = "2.0.2"
+    MOCKITO_VERSION = '2.7.1'
+    ESPRESSO_VERSION = '2.2.2'
+    ROBOELECTRIC_VERSION = '3.3.2'
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:25.3.1'
+
+    /* android design */
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:appcompat-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:design:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:recyclerview-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:animated-vector-drawable:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:customtabs:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:design:$ANDROID_SUPPORT_DESIGN_VERSION"
+    compile "com.android.support:cardview-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
+
+    /* dagger */
+    compile "com.google.dagger:dagger:$DAGGER_VERSION"
+    compile "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+
+    /* butterknife */
+    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    apt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    provided "org.glassfish:javax.annotation:$BUTTER_KNIFE_ANNOTATION_VERSION"
+
+    /* rxjava */
+    compile "io.reactivex.rxjava2:rxjava:$RXJAVA2_VERSION"
+    compile "io.reactivex.rxjava2:rxandroid:$RXJAVA2_VERSION"
+    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$RXJAVA2_ADAPTER_VERSION"
+
+    /* retrofit */
+    compile "com.squareup.okio:okio:$OKIO_VERSION"
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
+    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
+    compile "com.squareup.okhttp3:okhttp-urlconnection:$OKHTTP_VERSION"
+
+    /* room persistent */
+    compile "android.arch.persistence.room:runtime:$ROOM_VERSION"
+    annotationProcessor "android.arch.persistence.room:compiler:$ROOM_VERSION"
+
+    /* kotlin */
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    /* espresso */
+    testCompile 'junit:junit:4.12'
+    compile('com.android.support.test:rules:0.5') {
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile('com.android.support.test:runner:0.5') {
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION") {
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: "com.squareup", module: "javawriter"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
+        exclude module: "recyclerview-v7"
+        exclude module: "support-v4"
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile('com.android.support.test.espresso:espresso-intents:2.2.1') {
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    compile("com.android.support.test.espresso:espresso-idling-resource:$ESPRESSO_VERSION") {
+        exclude module: "recyclerview-v7"
+        exclude module: "support-v4"
+        exclude group: "javax.inject", module: "javax.inject"
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    /* mockito */
+    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    androidTestCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+
+    // multidex
+    compile 'com.android.support:multidex:1.0.1'
 }
