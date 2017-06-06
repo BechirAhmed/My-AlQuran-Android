@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'android-apt'
+//apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 apply plugin: 'com.jakewharton.butterknife'
 
@@ -29,9 +29,8 @@ android {
 
 ext {
     ANDROID_SUPPORT_DESIGN_VERSION = '25.3.1'
-    ROOM_VERSION = '1.0.0-alpha1'
     ESPRESSO_VERSION = '2.2.2'
-    BUTTER_KNIFE_VERSION = "8.6.0"
+    BUTTER_KNIFE_VERSION = "8.4.0"
     BUTTER_KNIFE_ANNOTATION_VERSION = "10.0-b28"
     GLIDE_VERSION = "3.7.0"
     RXJAVA2_VERSION = "2.0.1"
@@ -65,7 +64,7 @@ dependencies {
 
     /* butterknife */
     compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    kapt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
     provided "org.glassfish:javax.annotation:$BUTTER_KNIFE_ANNOTATION_VERSION"
 
     /* rxjava */
