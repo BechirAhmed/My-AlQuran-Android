@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'android-apt'
+apply plugin: 'realm-android'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 25
@@ -25,7 +27,7 @@ ext {
     ANDROID_SUPPORT_DESIGN_VERSION = '25.3.1'
     ROOM_VERSION = '1.0.0-alpha1'
     ESPRESSO_VERSION = '2.2.2'
-    BUTTER_KNIFE_VERSION = "8.4.0"
+    BUTTER_KNIFE_VERSION = "8.6.0"
     BUTTER_KNIFE_ANNOTATION_VERSION = "10.0-b28"
     GLIDE_VERSION = "3.7.0"
     RXJAVA2_VERSION = "2.0.1"
@@ -59,7 +61,7 @@ dependencies {
 
     /* butterknife */
     compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
     provided "org.glassfish:javax.annotation:$BUTTER_KNIFE_ANNOTATION_VERSION"
 
     /* rxjava */
@@ -75,12 +77,15 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
     compile "com.squareup.okhttp3:okhttp-urlconnection:$OKHTTP_VERSION"
 
-    /* room persistent */
-    compile "android.arch.persistence.room:runtime:$ROOM_VERSION"
-    annotationProcessor "android.arch.persistence.room:compiler:$ROOM_VERSION"
-
     /* kotlin */
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    /* multidex */
+    compile 'com.android.support:multidex:1.0.1'
+
+    /* mockito */
+    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    androidTestCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
 
     /* espresso */
     testCompile 'junit:junit:4.12'
@@ -104,7 +109,7 @@ dependencies {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile('com.android.support.test.espresso:espresso-intents:2.2.1') {
+    compile("com.android.support.test.espresso:espresso-intents:2.2.1") {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -114,11 +119,4 @@ dependencies {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
-    /* mockito */
-    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
-    androidTestCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
-
-    // multidex
-    compile 'com.android.support:multidex:1.0.1'
 }
