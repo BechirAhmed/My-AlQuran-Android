@@ -1,0 +1,64 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    ANDROID_SUPPORT_DESIGN_VERSION = '25.3.1'
+    ESPRESSO_VERSION = '2.2.2'
+    BUTTER_KNIFE_VERSION = "8.4.0"
+    BUTTER_KNIFE_ANNOTATION_VERSION = "10.0-b28"
+    GLIDE_VERSION = "3.7.0"
+    RXJAVA2_VERSION = "2.0.1"
+    RXJAVA2_ADAPTER_VERSION = "1.0.0"
+    OKHTTP_VERSION = "3.8.0"
+    RETROFIT_VERSION = "2.3.0"
+    OKIO_VERSION = "1.13.0"
+    GLIDE_VERSION = "3.7.0"
+    DAGGER_VERSION = "2.0.2"
+    MOCKITO_VERSION = '2.7.1'
+    ESPRESSO_VERSION = '2.2.2'
+    ROBOELECTRIC_VERSION = '3.3.2'
+    KOTLIN_VERSION = '1.1.2-3'
+
+    presentationDependencies = [
+            /* android design */
+            androidConstrainLayout:         "com.android.support.constraint:constraint-layout:1.0.2",
+            androidAppCompat:               "com.android.support:appcompat-v7:${ANDROID_SUPPORT_DESIGN_VERSION}",
+            androidSupportDesign:           "com.android.support:design:${ANDROID_SUPPORT_DESIGN_VERSION}",
+            androidRecyclerView:            "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_DESIGN_VERSION}",
+            androidAnimatedVectorDrawable:  "com.android.support:animated-vector-drawable:${ANDROID_SUPPORT_DESIGN_VERSION}",
+            androidCustomTabls:             "com.android.support:customtabs:${ANDROID_SUPPORT_DESIGN_VERSION}",
+            androidCardView:                "com.android.support:cardview-v7:${ANDROID_SUPPORT_DESIGN_VERSION}",
+
+            /* dagger */
+            dagger:                         "com.google.dagger:dagger:${DAGGER_VERSION}",
+            daggerCompailer:                "com.google.dagger:dagger-compiler:${DAGGER_VERSION}",
+
+            /* butterknife */
+            butterknife:                    "com.jakewharton:butterknife:${BUTTER_KNIFE_VERSION}",
+            butterknifeCompiler:            "com.jakewharton:butterknife-compiler:${BUTTER_KNIFE_VERSION}",
+            butterknifeAnnotation:          "org.glassfish:javax.annotation:${BUTTER_KNIFE_ANNOTATION_VERSION}",
+
+            /* rxjava */
+            rxJava:                         "io.reactivex.rxjava2:rxjava:${RXJAVA2_VERSION}",
+            rxAndroid:                      "io.reactivex.rxjava2:rxandroid:${RXJAVA2_VERSION}",
+            rxJavaAdapter:                  "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${RXJAVA2_ADAPTER_VERSION}",
+
+            /* retrofit */
+            okio:                           "com.squareup.okio:okio:${OKIO_VERSION}",
+            retrofit:                       "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}",
+            retrofitConverter:              "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}",
+            okhttpInterceptor:              "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}",
+            okhttp:                         "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}",
+            okhttpUrlConnection:            "com.squareup.okhttp3:okhttp-urlconnection:${OKHTTP_VERSION}",
+
+            /* kotlin */
+            kotlin:                         "org.jetbrains.kotlin:kotlin-stdlib-jre7:${KOTLIN_VERSION}",
+
+            /* multidex */
+            multidex:                       "com.android.support:multidex:1.0.1"
+    ]
+}
+
