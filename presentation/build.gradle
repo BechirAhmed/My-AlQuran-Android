@@ -5,88 +5,99 @@ apply plugin: 'realm-android'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
-    defaultConfig {
-        applicationId "net.radityalabs.myalquran.android"
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    def configuration = rootProject.extensions.getByName("ext")
 
-        multiDexEnabled true
-        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
-        vectorDrawables.useSupportLibrary = true
+    compileSdkVersion configuration.getAt("ANDROID_COMPILE_SDK_VERSION")
+    buildToolsVersion configuration.getAt("ANDROID_BUILD_TOOLS_VERSION")
+    defaultConfig {
+        applicationId configuration.getAt("ANDROID_APPLICATION_ID")
+        minSdkVersion configuration.getAt("ANDROID_MIN_SDK_VERSION")
+        targetSdkVersion configuration.getAt("ANDROID_TARGET_SDK_VERSION")
+        versionCode configuration.getAt("ANDROID_VERSION_CODE")
+        versionName configuration.getAt("ANDROID_VERSION_NAME")
+        testInstrumentationRunner configuration.getAt("ANDROID_TEST_INSTRUMENTATION_RUNNER")
+
+        multiDexEnabled configuration.getAt("MULTIDEX_ENABLE")
+        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath configuration.getAt("JAVA_COMPILE_OPTIONS")
+        vectorDrawables.useSupportLibrary configuration.getAt("VECTOR_DRAWABLE_SUPPORT_LIBRARY")
     }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled configuration.getAt("MINIFIED_ENBLE")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    /* android design */
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile "com.android.support:appcompat-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:design:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:recyclerview-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:animated-vector-drawable:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:customtabs:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:design:$ANDROID_SUPPORT_DESIGN_VERSION"
-    compile "com.android.support:cardview-v7:$ANDROID_SUPPORT_DESIGN_VERSION"
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
-    /* dagger */
-    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    compile "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+    compile presentationDependencies.androidConstrainLayout
+    compile presentationDependencies.androidAppCompat
+    compile presentationDependencies.androidSupportDesign
+    compile presentationDependencies.androidRecyclerView
+    compile presentationDependencies.androidAnimatedVectorDrawable
+    compile presentationDependencies.androidCustomTabls
+    compile presentationDependencies.androidConstrainLayout
+    compile presentationDependencies.androidCardView
 
-    /* butterknife */
-    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
-    kapt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
-    provided "org.glassfish:javax.annotation:$BUTTER_KNIFE_ANNOTATION_VERSION"
+    compile presentationDependencies.dagger
+    compile presentationDependencies.daggerCompiler
 
-    /* rxjava */
-    compile "io.reactivex.rxjava2:rxjava:$RXJAVA2_VERSION"
-    compile "io.reactivex.rxjava2:rxandroid:$RXJAVA2_VERSION"
-    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$RXJAVA2_ADAPTER_VERSION"
+    compile presentationDependencies.butterknife
+    kapt presentationDependencies.butterknifeCompiler
+    provided presentationDependencies.butterknifeAnnotation
 
-    /* retrofit */
-    compile "com.squareup.okio:okio:$OKIO_VERSION"
-    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    compile "com.squareup.okhttp3:logging-interceptor:$OKHTTP_VERSION"
-    compile "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
-    compile "com.squareup.okhttp3:okhttp-urlconnection:$OKHTTP_VERSION"
+    compile presentationDependencies.rxJava
+    compile presentationDependencies.rxAndroid
+    compile presentationDependencies.rxJavaAdapter
 
-    /* kotlin */
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile presentationDependencies.okio
+    compile presentationDependencies.retrofit
+    compile presentationDependencies.retrofitConverter
+    compile presentationDependencies.okhttpInterceptor
+    compile presentationDependencies.okhttp
+    compile presentationDependencies.okhttpUrlConnection
 
-    /* multidex */
-    compile 'com.android.support:multidex:1.0.1'
+    compile presentationDependencies.kotlin
 
-    /* mockito */
-    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
-    androidTestCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    compile presentationDependencies.multidex
 
-    /* espresso */
-    testCompile 'junit:junit:4.12'
+    testCompile presentationTestDependencies.mockitoCore
+    androidTestCompile presentationTestDependencies.mockitoCore
+
+    testCompile presentationTestDependencies.junit
+
     compile('com.android.support.test:rules:0.5') {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     compile('com.android.support.test:runner:0.5') {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     compile("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION") {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: "com.squareup", module: "javawriter"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     compile("com.android.support.test.espresso:espresso-contrib:$ESPRESSO_VERSION") {
         exclude module: "recyclerview-v7"
         exclude module: "support-v4"
@@ -94,10 +105,12 @@ dependencies {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     compile("com.android.support.test.espresso:espresso-intents:2.2.1") {
         exclude group: "javax.inject", module: "javax.inject"
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+
     compile("com.android.support.test.espresso:espresso-idling-resource:$ESPRESSO_VERSION") {
         exclude module: "recyclerview-v7"
         exclude module: "support-v4"
